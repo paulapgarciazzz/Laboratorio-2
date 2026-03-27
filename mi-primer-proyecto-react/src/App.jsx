@@ -33,10 +33,6 @@ function App() {
         </button>
       </section>
 
-
-
-      <SaludoJhon />
-
       <div className="ticks"></div>
 
       <section id="next-steps">
