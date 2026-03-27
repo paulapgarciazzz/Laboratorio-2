@@ -33,6 +33,11 @@ function App() {
         </button>
       </section>
 
+
+
+      <SaludoJhon />
+
+      <SaludoPaula />
       <div className="ticks"></div>
 
       <section id="next-steps">
