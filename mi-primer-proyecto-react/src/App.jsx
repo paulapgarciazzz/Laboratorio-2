@@ -35,7 +35,6 @@ function App() {
 
 
 
-      <SaludoJhon />
 
       <div className="ticks"></div>
 
