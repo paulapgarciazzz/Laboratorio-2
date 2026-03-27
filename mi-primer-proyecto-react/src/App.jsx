@@ -5,6 +5,7 @@ import heroImg from './assets/hero.png'
 import './App.css'
 import SaludoPaula from './Components/SaludoPaula'
 import SaludoJairo from './Components/SaludoJairo'
+import SaludoJhon from './Components/SaludoJhon'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -23,6 +24,7 @@ function App() {
             Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
             <SaludoJairo />
             <SaludoPaula />
+            <SaludoJhon />
           </p>
         </div>
         <button
@@ -35,9 +37,7 @@ function App() {
 
 
 
-      <SaludoJhon />
-
-      <SaludoPaula />
+      
       <div className="ticks"></div>
 
       <section id="next-steps">
