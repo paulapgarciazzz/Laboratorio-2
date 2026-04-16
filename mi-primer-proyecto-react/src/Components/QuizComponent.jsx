@@ -1,64 +1,120 @@
-import { useEffect, useState } from "react"
-import Confetti from 'react-confetti'
+import { useEffect, useState } from "react";
+import Confetti from "react-confetti";
+import "./QuizComponent.css";
+
 export default function QuizComponent() {
-const [preguntas, setPreguntas] = useState([]);
-const [selectedAnswer, setSelectedAnswer] = useState(null);
-const [answered, setAnswered] = useState(false);
-const [showConfetti, setShowConfetti] = useState(false);
+  const [preguntas, setPreguntas] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [answered, setAnswered] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
+  const BotonColor = (index) => {
+    if (!answered) return "";
 
-const BotonColor = (index) => {
-  if (!answered) return {};
-  if (index === preguntas[0]?.correctAnswer) {
-    return { backgroundColor: 'green', color: 'white' };
-  }
-  if (index === selectedAnswer) {
-    return { backgroundColor: 'red', color: 'white' };
-  }
-  return {};
-}
+    if (index === preguntas[currentIndex]?.correctAnswer) {
+      return "correct";
+    }
 
-const heandleAnswerClick = (Index) => {
+    if (index === selectedAnswer) {
+      return "incorrect";
+    }
+
+    return "";
+  };
+
+  const heandleAnswerClick = (Index) => {
+    if (answered) return;
+
     setSelectedAnswer(Index);
     setAnswered(true);
-    if (preguntas[0]?.correctAnswer === Index) {
-        setShowConfetti(true);
-        setTimeout(() => setShowConfetti(false), 3000); // Oculta el confeti después de 3 segundos
+
+    if (preguntas[currentIndex]?.correctAnswer === Index) {
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 3000);
     }
-}
-useEffect(() => {
+  };
+
+  const siguientePregunta = () => {
+    setCurrentIndex(currentIndex + 1);
+    setSelectedAnswer(null);
+    setAnswered(false);
+  };
+
+  useEffect(() => {
     const headers = new Headers();
-    headers.append('X-Master-Key', '$2a$10$D4GL6SynYBNAWi4ZnUh12Ol.DRAPsH6FocHOK8O4p6kdILjkWLGz6'); //Error de seguridad, muy mala practica, no se deben exponer las claves en el código fuente
-    const fetchQuiz=async () => {
-        try {
-            const response = await fetch('https://api.jsonbin.io/v3/b/69d482fe856a68218907cf25', { headers });   
-            const data = await response.json();
-            setPreguntas(data.record);
-        } catch (error) {
-            console.error("Error fetching quiz data:", error);
-        }
-    }
+
+    headers.append(
+     "X-Master-key" ,"$2a$10$D4GL6SynYBNAWi4ZnUh12Ol.DRAPsH6FocHOK8O4p6kdILjkWLGz6"
+    );
+
+    const fetchQuiz = async () => {
+      try {
+        const response = await fetch(
+          "https://api.jsonbin.io/v3/b/69e16b8faaba882197093524",
+          { headers }
+        );
+
+        const data = await response.json();
+        setPreguntas(data.record);
+      } catch (error) {
+        console.error("Error fetching quiz data:", error);
+      }
+    };
+
     fetchQuiz();
-}, []);
+  }, []);
 
+  if (preguntas.length === 0) {
+    return <h2>Cargando...</h2>;
+  }
 
+  return (
+    <>
+      {showConfetti && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+        />
+      )}
 
-return (  
+      <div className="container">
+        <div className="card">
+          <h1>Quiz Component</h1>
 
-<>
-{showConfetti && <Confetti width={window.innerWidth}
-    height={window.innerHeight}/>}
-<div>
-    <h1>Quiz Component</h1>
-<p>{preguntas[0]?.question}</p> 
+          {currentIndex < preguntas.length ? (
+            <>
+              <p className="question">
+                {preguntas[currentIndex]?.question}
+              </p>
 
-<div>
-{preguntas[0]?.answers.map((option, index) => ( 
-<button key={index} onClick={() => heandleAnswerClick(index)} style={BotonColor(index)}>
-{option}
-</button>
-))}
-</div>
-</div>
-</>
-)}
+              <div className="answers">
+                {preguntas[currentIndex]?.answers.map((option, index) => (
+                  <button
+                    key={index}
+                    onClick={() => heandleAnswerClick(index)}
+                    className={`answer-btn ${BotonColor(index)}`}
+                    disabled={answered}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+
+              {answered && (
+                <button
+                  className="next-btn"
+                  onClick={siguientePregunta}
+                >
+                  Siguiente
+                </button>
+              )}
+            </>
+          ) : (
+            <h2> Quiz terminado :3 </h2>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
