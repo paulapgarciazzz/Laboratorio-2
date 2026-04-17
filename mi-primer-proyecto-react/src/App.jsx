@@ -6,6 +6,7 @@ import './App.css'
 import SaludoPaula from './Components/SaludoPaula'
 import SaludoJairo from './Components/SaludoJairo'
 import SaludoJhon from './Components/SaludoJhon'
+import Preguntas from './Lab3Jairo/ComponentesJairo/Preguntas'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -123,7 +124,6 @@ function App() {
 
       <div className="ticks"></div>
       <section id="spacer"></section>
-      
     </>
   )
 }
