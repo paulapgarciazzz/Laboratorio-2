@@ -37,9 +37,8 @@ export default function QuizComponent() {
   };
 
   useEffect(() => {
-    const headers = new Headers();
-    headers.append(
-     "X-Master-key" ,"$2a$10$D4GL6SynYBNAWi4ZnUh12Ol.DRAPsH6FocHOK8O4p6kdILjkWLGz6");
+  const headers = new Headers();
+  headers.append("X-Master-Key", import.meta.env.VITE_JSONBIN_MASTER_KEY);
 
     const fetchQuiz = async () => {
       try {
