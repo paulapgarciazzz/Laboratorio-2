@@ -1,20 +1,22 @@
-// services/api.js
-const API_URL = 'https://api.jsonbin.io/v3/b/69e0241736566621a8ba0f4e';
-const MASTER_KEY = '$2a$10$J5SIxPIQVH8WJm4rRnOdC.18exFab9Plpvidq/psoYVhTKoZZBZe.';
+import.meta.env.VITE_API_URL
 
 export const fetchPreguntas = async () => {
   try {
-    const respuesta = await fetch(API_URL, {
+    const respuesta = await fetch('https://api.jsonbin.io/v3/b/69ea5b61856a6821896608dd' , {
       headers: {
-        'X-Master-Key': MASTER_KEY
-      }
+        'X-Access-Key': import.meta.env.VITE_ACCESS_KEY,
+      },
     });
+
+
     if (!respuesta.ok) {
       throw new Error(`Error ${respuesta.status}: ${respuesta.statusText}`);
     }
+
     const datos = await respuesta.json();
-    return datos.record;
+     return datos.record;
     
+
   } catch (error) {
     console.error('Error en fetchPreguntas:', error);
     throw error;
