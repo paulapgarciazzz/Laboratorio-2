@@ -38,7 +38,7 @@ export default function QuizComponent() {
 
   useEffect(() => {
   const headers = new Headers();
-  headers.append("X-Master-Key", import.meta.env.VITE_JSONBIN_MASTER_KEY);
+  headers.append("X-Access-Key", import.meta.env.VITE_JSONBIN_ACCESS_KEY);
 
     const fetchQuiz = async () => {
       try {
